@@ -1,0 +1,14 @@
+
+
+/.cache
+/build
+/public/build
+.env
+/app/tailwind.css
+/jsonDocs
+.DS_Store
+/dist
+.mf
+/meta.json
+/stats.html
+public/entry.worker.js
