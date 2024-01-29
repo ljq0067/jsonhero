@@ -47,7 +47,7 @@ export function InfoHeader({ relatedPaths }: InfoHeaderProps) {
   }, [relatedPaths, json]);
 
   const [hovering, setHovering] = useState(false);
-  console.warn(selectedInfo);
+  console.warn(new JSONHeroPath(selectedNodeId));
 
   const newPath = formattedSelectedInfo.replace(/^#/, "$").replace(/\//g, ".");
 
@@ -102,9 +102,15 @@ export function InfoHeader({ relatedPaths }: InfoHeaderProps) {
       </div>
       <div className="flex text-gray-400">
         <Body className="flex-1">
-          {concatenated(getHierarchicalTypes(selectedInfo))}
+          {selectedNode.children.length > 2 && selectedNode.children[1].name=="type" ? selectedNode.children[1].subtitle : null}
+          {selectedNode.children.length > 2 && selectedNode.children[2].name=="type" ? selectedNode.children[2].subtitle : null}
         </Body>
         {canBeNull && <Body>Can be null</Body>}
+      </div>
+      <div className="flex text-gray-400">
+        <Body className="flex-1">
+          {selectedNode.children.length > 1 && selectedNode.children[1].name=="desc" ? selectedNode.children[1].subtitle : null}
+        </Body>
       </div>
     </div>
   );

@@ -96,25 +96,28 @@ export function generateTreeViewNodes(json: unknown): Array<JsonTreeViewNode> {
   return generateChildren(info, path) ?? [];
 }
 
+
 function generateChildren(
   info: JSONValueType,
   path: JSONHeroPath
 ): Array<JsonTreeViewNode> | undefined {
-  if (info.name === "array") {
-    return info.value.map((item, index) => {
-      const itemInfo = inferType(item);
-      const itemPath = path.child(index.toString());
 
-      return {
-        id: itemPath.toString(),
-        name: index.toString(),
-        title: index.toString(),
-        longTitle: `Index ${index.toString()}`,
-        subtitle: formatValue(itemInfo),
-        icon: iconForType(itemInfo),
-        children: generateChildren(itemInfo, itemPath),
-      };
-    });
+  if (info.name === "array") {
+    if (info.name === "array") {
+      return info.value.map((item, index) => {
+        const itemInfo = inferType(item);
+        const itemPath = path.child(index.toString());
+        return {
+          id: itemPath.toString(),
+          name: index.toString(),
+          title: index.toString(),
+          longTitle: `Index ${index.toString()}`,
+          subtitle: formatValue(itemInfo),
+          icon: iconForType(itemInfo),
+          children: generateChildren(itemInfo, itemPath),
+        };
+      });
+    }
   }
 
   if (info.name === "object") {

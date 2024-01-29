@@ -78,7 +78,6 @@ export function JsonTreeView() {
     }
   }, [treeRef.current]);
 
-
   return (
     <>
       <CopySelectedNodeShortcut />
@@ -125,7 +124,7 @@ function TreeViewNode({
   const indentClassName = computeTreeNodePaddingClass(depth);
 
   const isSelected = selectedNodeId === node.id;
-
+  
   return (
     <div
       style={{
@@ -149,7 +148,7 @@ function TreeViewNode({
         }`}
       >
         <div className={`pl-2 w-2/6 items-center flex`}>
-          {node.children && node.children.length > 0 && (
+          {node.children && node.children.length > 0 && node.children[0].name!= "optional" && (
             <span
               onClick={(e) => {
                 if (onToggle) {
@@ -190,18 +189,30 @@ function TreeViewNode({
         </div>
 
         <div className="flex w-4/6 items-center">
-          <span className="mr-2">
-            {node.icon && (
-              <node.icon
-                className={`h-5 w-5 ${
-                  isSelected
-                    ? "text-slate-100"
-                    : "text-slate-400 dark:text-slate-500"
-                }`}
-              />
-            )}
-          </span>
-          {node.subtitle && (
+          {node.children && node.children.length > 2 && (
+            <Mono
+              className={`truncate pr-1 transition ${
+                isSelected
+                  ? "text-slate-100"
+                  : "text-slate-500 dark:text-slate-200"
+              }`}
+            >
+              {node.children[0].subtitle == "true" && "optional"}
+              {node.children[0].subtitle == "false" && "required"}
+              <span className="mr-20">
+              </span>
+              {node.children[1].name == "type" && node.children[1].subtitle}
+              {node.children[2].name == "type" && node.children[2].subtitle}
+              <span className="mr-20">
+              </span>
+              {node.children[2].name == "value" && node.children[2].subtitle != "Please Enter" && !node.children[2].subtitle?.includes("item") && node.children[2].subtitle}
+
+            </Mono>
+          )}
+        </div>
+        
+        <div className="flex w-4/6 items-center">
+          {node.subtitle && !node.children && (
             <Mono
               className={`truncate pr-1 transition ${
                 isSelected
